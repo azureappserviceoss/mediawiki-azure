@@ -252,9 +252,9 @@ class SpamBlacklist extends BaseBlacklist {
 			'action' => $action,
 			'protocol' => $parsed['scheme'],
 			'domain' => $parsed['host'],
-			'path' => $parsed['path'] !== null ? $parsed['path'] : '',
-			'query' => $parsed['query'] !== null ? $parsed['query'] : '',
-			'fragment' => $parsed['fragment'] !== null ? $parsed['fragment'] : '',
+			'path' => isset( $parsed['path'] ) ? $parsed['path'] : '',
+			'query' => isset( $parsed['query'] ) ? $parsed['query'] : '',
+			'fragment' => isset( $parsed['fragment'] ) ? $parsed['fragment'] : '',
 		);
 
 		$this->urlChangeLog[] = $info;
@@ -327,7 +327,21 @@ class SpamBlacklist extends BaseBlacklist {
 				'4::url' => $url,
 			) );
 			$logid = $logEntry->insert();
-			$logEntry->publish( $logid, "rc" );
+			$log = new LogPage( 'spamblacklist' );
+			if ( $log->isRestricted() ) {
+				// Make sure checkusers can see this action if the log is restricted
+				// (which is the default)
+				if ( ExtensionRegistry::getInstance()->isLoaded( 'CheckUser' )
+					&& class_exists( 'CheckUserHooks' )
+				) {
+					$rc = $logEntry->getRecentChange( $logid );
+					CheckUserHooks::updateCheckUserData( $rc );
+				}
+			} else {
+				// If the log is unrestricted, publish normally to RC,
+				// which will also update checkuser
+				$logEntry->publish( $logid, "rc" );
+			}
 		}
 	}
 }
