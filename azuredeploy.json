@@ -29,11 +29,11 @@
     },
     "SiteAdminusername":    {
       "type": "string",
-      "defaultValue": ""
+      "defaultValue": "azureuser"
     },
     "SiteAdminPassword":{  
          "type":"string",
-         "defaultValue":""
+         "defaultValue":"Password!01"
       }
   },
   "resources": [
