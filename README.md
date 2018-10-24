@@ -1,5 +1,6 @@
 # MediaWiki 
-With the button below, you can easily deploy the MediaWiki to Azure.  
+With the button below, you can easily deploy the MediaWiki to Azure.
+* You have to input site administrator user name and password during deployment, by default they are azureuser/Password!01.
 
 [![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/)
 
@@ -36,6 +37,8 @@ MediaWiki's reliability and robust feature set have earned it a large and vibran
         ## $wgLogo = "$wgResourceBasePath/resources/assets/wiki.png"; 
         $wgLogo = "$wgResourceBasePath/resources/assets/mediawiki.png";
 ```
+
+
 
 ## CREDITS && COPYING
 MediaWiki is the result of global collaboration and cooperation.   
